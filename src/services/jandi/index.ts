@@ -7,7 +7,6 @@ const USERNAME_LIST = [
   "Felix-Silas",
   "dayremain",
 ];
-
 export const checkJandi = async () => {
   const octokit = new Octokit();
 
@@ -21,7 +20,7 @@ export const checkJandi = async () => {
         })
         .then((res) => {
           return {
-            username: res.data[0]?.actor.login,
+            username: res.data[0]?.actor.login ?? nameItem,
             isJandi: res.data[0]?.created_at
               ? isToday(new Date(res.data[0].created_at))
               : false,
