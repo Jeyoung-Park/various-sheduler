@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import schedule from "node-schedule";
-import { Octokit } from "octokit";
+import { checkJandi } from "./services/jandi";
 
 schedule.scheduleJob("0 0 22 * * *", async () => {
   // Todo: 잔디 체크 로직을 매일 밤 10시마다 실행
@@ -9,7 +9,8 @@ schedule.scheduleJob("0 0 22 * * *", async () => {
 const app = express();
 
 app.get("/", async (req: Request, res: Response, next: NextFunction) => {
-  res.send("welcome!");
+  const data = await checkJandi();
+  res.send(data);
 });
 
 app.listen("1234", () => {
