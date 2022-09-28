@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import schedule from "node-schedule";
-import { login } from "./services/discord";
+import { login, sendDiscordMsg } from "./services/discord";
 import { checkJandi } from "./services/jandi";
 require("dotenv").config();
 
@@ -9,10 +9,11 @@ schedule.scheduleJob("0 0 22 * * *", async () => {
 });
 
 const app = express();
+login();
 
 app.get("/", async (req: Request, res: Response, next: NextFunction) => {
   const data = await checkJandi();
-  login();
+  sendDiscordMsg("example1");
   res.send(data);
 });
 
