@@ -9,5 +9,5 @@ export const login = () => {
 export const sendDiscordMsg = (msg = "") => {
   if (!process.env.CHANNEL_ID) return;
   const channel = client.channels.cache.get(process.env.CHANNEL_ID);
-  channel.send(msg);
+  channel?.send(msg);
 };
