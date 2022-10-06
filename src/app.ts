@@ -9,11 +9,11 @@ login();
 const rule = new schedule.RecurrenceRule();
 rule.tz = "Asia/Seoul";
 rule.second = 0;
-rule.minute = 0;
-rule.hour = 22;
+rule.minute = 59;
+rule.hour = 23;
 
 schedule.scheduleJob(rule, async () => {
-  // 잔디 체크 로직을 매일 밤 10시마다 실행
+  // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
   const data = await checkJandi();
   const usersWithNoJandi = data
     .reduce((prev, curr) => {
