@@ -43,6 +43,16 @@ schedule.scheduleJob(rule, async () => {
 const app = express();
 
 app.get("/", async (req: Request, res: Response, next: NextFunction) => {
+  const data = await checkJandi();
+  const usersWithNoJandi = data
+    .reduce((prev, curr) => {
+      if (!curr.isJandi) {
+        return prev.concat(`${curr.username}, `);
+      }
+      return prev;
+    }, "")
+    .slice(0, -2);
+  sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
   res.send("welcome!");
 });
 

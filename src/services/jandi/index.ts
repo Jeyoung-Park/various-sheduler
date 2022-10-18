@@ -19,7 +19,7 @@ export const checkJandi = async () => {
         .then((res) => {
           return {
             username:
-              res.data[0]?.actor.login ?? (userItem.name || userItem.github_id),
+              (userItem.name || userItem.github_id) ?? res.data[0]?.actor.login,
             isJandi: res.data[0]?.created_at
               ? isToday(new Date(res.data[0].created_at))
               : false,
