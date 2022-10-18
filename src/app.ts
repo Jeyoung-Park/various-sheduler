@@ -2,7 +2,9 @@ import express, { Request, Response, NextFunction } from "express";
 import schedule from "node-schedule";
 import { login, sendDiscordMsg } from "./services/discord";
 import { checkJandi } from "./services/jandi";
-import { getUsers } from "./services/users";
+
+const { getUsers } = require("./services/users");
+
 require("dotenv").config();
 
 login();
@@ -45,7 +47,7 @@ app.get("/", async (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.get("/users", async (req: Request, res: Response, next: NextFunction) => {
-  const users = getUsers();
+  const users = await getUsers();
   res.send({ users });
 });
 app.listen("1234", () => {

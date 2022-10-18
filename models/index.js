@@ -17,4 +17,6 @@ db.sequelize = sequelize;
 
 db.User = User;
 
+User.init(sequelize);
+
 module.exports = db;
