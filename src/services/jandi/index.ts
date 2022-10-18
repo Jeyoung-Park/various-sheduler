@@ -1,26 +1,25 @@
 import { Octokit } from "octokit";
 import isToday from "date-fns/isToday";
 
-const USERNAME_LIST = [
-  "Jeyoung-Park",
-  "hyojunahn111",
-  "Felix-Silas",
-  "dayremain",
-];
+const { getUsers } = require("../../services/users");
+
 export const checkJandi = async () => {
   const octokit = new Octokit();
 
+  const users = await getUsers();
+
   const result = await Promise.all(
-    USERNAME_LIST.map((nameItem) =>
+    users.map((userItem: any) =>
       octokit
         .request("GET /users/{username}/events/public", {
-          username: nameItem,
+          username: userItem.github_id,
           per_page: 1,
           page: 1,
         })
         .then((res) => {
           return {
-            username: res.data[0]?.actor.login ?? nameItem,
+            username:
+              (userItem.name || userItem.github_id) ?? res.data[0]?.actor.login,
             isJandi: res.data[0]?.created_at
               ? isToday(new Date(res.data[0].created_at))
               : false,
