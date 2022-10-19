@@ -3,7 +3,8 @@ import schedule from "node-schedule";
 import { login, sendDiscordMsg } from "./services/discord";
 import { checkJandi } from "./services/jandi";
 
-const { getUsers } = require("./services/users");
+const indexRouter = require("./routes");
+const usersRouter = require("./routes/users");
 
 require("dotenv").config();
 
@@ -42,24 +43,9 @@ schedule.scheduleJob(rule, async () => {
 
 const app = express();
 
-app.get("/", async (req: Request, res: Response, next: NextFunction) => {
-  const data = await checkJandi();
-  const usersWithNoJandi = data
-    .reduce((prev, curr) => {
-      if (!curr.isJandi) {
-        return prev.concat(`${curr.username}, `);
-      }
-      return prev;
-    }, "")
-    .slice(0, -2);
-  sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
-  res.send("welcome!");
-});
+app.use(indexRouter);
+app.use("/users", usersRouter);
 
-app.get("/users", async (req: Request, res: Response, next: NextFunction) => {
-  const users = await getUsers();
-  res.send({ users });
-});
 app.listen("1234", () => {
   console.log(`
   ################################################
