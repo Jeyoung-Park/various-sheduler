@@ -1,7 +1,7 @@
 import { Octokit } from "octokit";
 import isToday from "date-fns/isToday";
 
-const { getUsers } = require("../../services/users");
+const { getUsers } = require("../../controllers/users");
 
 export const checkJandi = async () => {
   const octokit = new Octokit();
