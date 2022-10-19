@@ -9,7 +9,7 @@ require("dotenv").config();
 
 login();
 
-const { sequelize } = require("../models");
+const { sequelize } = require("./models");
 
 sequelize
   .sync({ force: false })
