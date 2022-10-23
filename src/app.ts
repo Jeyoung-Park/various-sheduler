@@ -8,8 +8,7 @@ const usersRouter = require("./routes/users");
 
 require("dotenv").config();
 
-// TODO: discord 관련 api 임시 주석처리
-// login();
+login();
 
 const { sequelize } = require("./models");
 
@@ -28,20 +27,19 @@ rule.second = 0;
 rule.minute = 59;
 rule.hour = 23;
 
-// TODO: discord 관련 api 임시 주석처리
-// schedule.scheduleJob(rule, async () => {
-//   // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
-//   const data = await checkJandi();
-//   const usersWithNoJandi = data
-//     .reduce((prev, curr) => {
-//       if (!curr.isJandi) {
-//         return prev.concat(`${curr.username}, `);
-//       }
-//       return prev;
-//     }, "")
-//     .slice(0, -2);
-//   sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
-// });
+schedule.scheduleJob(rule, async () => {
+  // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
+  const data = await checkJandi();
+  const usersWithNoJandi = data
+    .reduce((prev, curr) => {
+      if (!curr.isJandi) {
+        return prev.concat(`${curr.username}, `);
+      }
+      return prev;
+    }, "")
+    .slice(0, -2);
+  sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
+});
 
 const app = express();
 
