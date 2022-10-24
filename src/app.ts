@@ -1,14 +1,17 @@
 import express, { Request, Response, NextFunction } from "express";
 import schedule from "node-schedule";
-import { login, sendDiscordMsg } from "./services/discord";
+import { handleCAUData, login, sendDiscordMsg } from "./services/discord";
 import { checkJandi } from "./services/jandi";
 
 const indexRouter = require("./routes");
 const usersRouter = require("./routes/users");
+const scrapRouter = require("./routes/scrap");
 
 require("dotenv").config();
 
 login();
+
+handleCAUData();
 
 const { sequelize } = require("./models");
 
@@ -45,6 +48,7 @@ const app = express();
 
 app.use(indexRouter);
 app.use("/users", usersRouter);
+app.use('/scrap', scrapRouter)
 
 app.listen("1234", () => {
   console.log(`
