@@ -4,5 +4,5 @@ const getCAUDataAPI=(keyword:string)=>`https://www.cau.ac.kr/ajax/FR_SVC/BBSView
 
 export const getCAUData=async(keyword:string)=>{
     const res= await axios({method:'get', url:getCAUDataAPI(keyword)});
-    return res.json;
+    return res.data;
 }

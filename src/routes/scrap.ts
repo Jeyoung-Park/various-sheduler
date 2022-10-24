@@ -7,8 +7,8 @@ router.get(
   "/cau",
   async (req: Request, res: Response, next: NextFunction) => {
     const data=await getCAUData('창업');
-    console.log({data})
-    res.status(200).json({data}) 
+    const filteredList=data.data.list.map((item:any)=>({id:item.ORD_NO, title:item.SUBJECT, content:item.SUB_CONTENTS, wroteAt:item.WRITE_DATE}))
+    res.status(200).json({data:filteredList}) 
   }
 );
 
