@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import schedule from "node-schedule";
-import { login, sendDiscordMsg } from "./services/discord";
+import { handleCAUData, login, sendDiscordMsg } from "./services/discord";
 import { checkJandi } from "./services/jandi";
 
 const indexRouter = require("./routes");
@@ -10,6 +10,8 @@ const scrapRouter = require("./routes/scrap");
 require("dotenv").config();
 
 login();
+
+handleCAUData();
 
 const { sequelize } = require("./models");
 
