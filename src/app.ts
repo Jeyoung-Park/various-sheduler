@@ -5,6 +5,7 @@ import { checkJandi } from "./services/jandi";
 
 const indexRouter = require("./routes");
 const usersRouter = require("./routes/users");
+const scrapRouter = require("./routes/scrap");
 
 require("dotenv").config();
 
@@ -45,6 +46,7 @@ const app = express();
 
 app.use(indexRouter);
 app.use("/users", usersRouter);
+app.use('/scrap', scrapRouter)
 
 app.listen("1234", () => {
   console.log(`
