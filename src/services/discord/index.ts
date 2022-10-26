@@ -1,4 +1,10 @@
-const { GatewayIntentBits, Client, Events } = require("discord.js");
+const {
+  GatewayIntentBits,
+  Client,
+  Events,
+  Routes,
+  REST,
+} = require("discord.js");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 export const cauClient = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -14,32 +20,51 @@ export const sendDiscordMsg = (msg = "") => {
   channel?.send(msg);
 };
 
-export const sendDiscordMsgCAU= (msg = "") => {
+export const sendDiscordMsgCAU = (msg = "") => {
   if (!process.env.DISCORD_CHANNEL_ID_UNIV) return;
-  const channel = cauClient.channels.cache.get(process.env.DISCORD_CHANNEL_ID_UNIV);
+  const channel = cauClient.channels.cache.get(
+    process.env.DISCORD_CHANNEL_ID_UNIV
+  );
   channel?.send(msg);
 };
 
-export const handleCAUData=()=>{
-  const prefix='!';
+export const handleCAUData = () => {
+  const commands = [
+    {
+      name: "ping",
+      description: "Replies with Pong!",
+    },
+  ];
+
+  const rest = new REST({ version: "10" }).setToken(
+    process.env.DISCORD_BOT_TOKEN_CAU
+  );
+
+  (async () => {
+    try {
+      console.log("Started refreshing application (/) commands.");
+
+      await rest.put(
+        Routes.applicationCommands(process.env.DISCORD_APPLICATION_ID_CAU),
+        { body: commands }
+      );
+
+      console.log("Successfully reloaded application (/) commands.");
+    } catch (error) {
+      console.error(error);
+    }
+  })();
 
   cauClient.once(Events.ClientReady, () => {
-    console.log('discord cau bot Ready!');
+    console.log("discord cau bot Ready!");
   });
 
-  cauClient.on('message', (message:any)=>{
-    console.log({message})
-    // message 작성자가 봇이면 그냥 return
-    if (message.author.bot) return;
-    // message 시작이 prefix가 아니면 return
-    if (!message.content.startsWith(prefix)) return;
+  cauClient.on(Events.InteractionCreate, async (interaction: any) => {
+    if (!interaction.isChatInputCommand()) return;
 
-    const commandBody = message.content.slice(prefix.length);
-    const args = commandBody.split(' ');
-    const command = args.shift().toLowerCase();
-    
-    if (command === "ping") {
-        message.reply(`pong!`);
+    if (interaction.commandName === "ping") {
+      console.log("!!!!");
+      await interaction.reply("Pong!");
     }
-  })
-}
+  });
+};
