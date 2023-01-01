@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from "express";
 import schedule from "node-schedule";
 import { login, sendDiscordMsg } from "./services/discord";
 import { checkJandi } from "./services/jandi";
+import { sendSlackMessage } from "./services/slack";
+import { getCAUListInString } from "./services/slack/cau";
 
 const indexRouter = require("./routes");
 const usersRouter = require("./routes/users");
@@ -40,6 +42,10 @@ schedule.scheduleJob(rule, async () => {
     }, "")
     .slice(0, -2);
   sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
+
+  // 중대 창업 관련 정보 슬랙에 전송
+  const cauResult=await getCAUListInString();
+  sendSlackMessage(cauResult);
 });
 
 const app = express();
