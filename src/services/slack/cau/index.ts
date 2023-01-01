@@ -11,5 +11,5 @@ export const getCAUListInString=async ()=>{
                 .concat(`- ${cur.content}\n`)
                 .concat(`- ${cur.wroteAt}\n`)
     }, initialString);
-    return resultInString;
+    return `중앙대 창업 정보\n${resultInString}`;
 }
