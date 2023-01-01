@@ -9,10 +9,8 @@ const {
 const fs = require('node:fs');
 const path = require('node:path');
 
-
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 export const cauClient = new Client({ intents: [GatewayIntentBits.Guilds] });
-
 
 export const login = () => {
   client.login(process.env.DISCORD_BOT_TOKEN);
