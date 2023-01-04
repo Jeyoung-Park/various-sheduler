@@ -1,4 +1,4 @@
-import { getCAUData } from "../../../api/cau";
+import { getCAUData } from "../../../api/univ";
 const dayjs = require("dayjs");
 
 const DIVIDER_STRING = "**************************************\n";

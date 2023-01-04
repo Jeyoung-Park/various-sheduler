@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response, Router } from "express";
-import { getCAUData } from "../api/cau";
+import { getCAUData } from "../api/univ";
 
 const router: Router = express.Router();
 

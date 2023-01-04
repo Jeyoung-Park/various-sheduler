@@ -3,7 +3,7 @@ import schedule from "node-schedule";
 import { login, sendDiscordMsg } from "./services/discord";
 import { checkJandi } from "./services/jandi";
 import { sendSlackMessage } from "./services/slack";
-import { getCAUListInString } from "./services/slack/cau";
+import { getCAUListInString } from "./services/slack/univ";
 
 const indexRouter = require("./routes");
 const usersRouter = require("./routes/users");
