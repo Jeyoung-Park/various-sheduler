@@ -44,7 +44,7 @@ schedule.scheduleJob(rule, async () => {
   sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
 
   // 중대 창업 관련 정보 슬랙에 전송
-  const cauResult=await getCAUListInString();
+  const cauResult = await getCAUListInString();
   sendSlackMessage(cauResult);
 });
 
@@ -52,7 +52,7 @@ const app = express();
 
 app.use(indexRouter);
 app.use("/users", usersRouter);
-app.use('/scrap', scrapRouter)
+app.use("/scrap", scrapRouter);
 
 app.listen("1234", () => {
   console.log(`
