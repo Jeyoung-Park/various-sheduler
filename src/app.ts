@@ -27,7 +27,7 @@ sequelize
 const rule = new schedule.RecurrenceRule();
 rule.tz = "Asia/Seoul";
 rule.second = 0;
-rule.minute = 59;
+rule.minute = 0;
 rule.hour = 23;
 
 schedule.scheduleJob(rule, async () => {
