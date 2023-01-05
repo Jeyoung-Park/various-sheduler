@@ -3,7 +3,7 @@ import schedule from "node-schedule";
 import { login, sendDiscordMsg } from "./services/discord";
 import { checkJandi } from "./services/jandi";
 import { sendSlackMessage } from "./services/slack";
-import { getCAUListInString } from "./services/slack/univ";
+import { getCAUListInString, getKUListInString } from "./services/slack/univ";
 
 const indexRouter = require("./routes");
 const usersRouter = require("./routes/users");
@@ -46,6 +46,10 @@ schedule.scheduleJob(rule, async () => {
   // 중대 창업 관련 정보 슬랙에 전송
   const cauResult = await getCAUListInString();
   sendSlackMessage(cauResult);
+
+  // 고대 창업 관련 정보 슬랙에 전송
+  const kuResult = await getKUListInString();
+  sendSlackMessage(kuResult);
 });
 
 const app = express();
