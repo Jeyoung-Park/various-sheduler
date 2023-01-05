@@ -19,16 +19,8 @@ export const scrapKUData = async () => {
       const title = $(element)
         .find("td.withthumbnail > a.thumbholder > span > span.textlink")
         .text();
-      console.log({ title });
-      // const description = $(element).find('p.copy > a').text();
-      // const price = $(element).find('p.price > strong').text();
-      // const imgUrl = $(element).find('p.image > a > img').attr('src');
-      // console.log(i + 1, {
-      //     title,
-      //     description,
-      //     price,
-      //     imgUrl,
-      // });
+      const createdAt = $(element).find("td.datecreated").text().slice(0, -4);
+      return { title, createdAt };
     });
   } catch (error) {
     console.error(error);
