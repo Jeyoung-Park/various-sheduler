@@ -32,24 +32,34 @@ rule.hour = 23;
 
 schedule.scheduleJob(rule, async () => {
   // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
-  const data = await checkJandi();
-  const usersWithNoJandi = data
-    .reduce((prev, curr) => {
-      if (!curr.isJandi) {
-        return prev.concat(`${curr.username}, `);
-      }
-      return prev;
-    }, "")
-    .slice(0, -2);
-  sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
+  try {
+    const data = await checkJandi();
+    const usersWithNoJandi = data
+      .reduce((prev, curr) => {
+        if (!curr.isJandi) {
+          return prev.concat(`${curr.username}, `);
+        }
+        return prev;
+      }, "")
+      .slice(0, -2);
+    sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
+  } catch (e) {
+    console.error(e);
+    sendDiscordMsg(`에러가 발생했습니다: ${e.message}`);
+  }
 
-  // 중대 창업 관련 정보 슬랙에 전송
-  const cauResult = await getCAUListInString();
-  sendSlackMessage(cauResult);
+  try {
+    // 중대 창업 관련 정보 슬랙에 전송
+    const cauResult = await getCAUListInString();
+    sendSlackMessage(cauResult);
 
-  // 고대 창업 관련 정보 슬랙에 전송
-  const kuResult = await getKUListInString();
-  sendSlackMessage(kuResult);
+    // 고대 창업 관련 정보 슬랙에 전송
+    const kuResult = await getKUListInString();
+    sendSlackMessage(kuResult);
+  } catch (e) {
+    console.error(e);
+    sendSlackMessage(`에러가 발생했습니다: ${e.message}`);
+  }
 });
 
 const app = express();
