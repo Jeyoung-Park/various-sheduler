@@ -43,9 +43,11 @@ schedule.scheduleJob(rule, async () => {
       }, "")
       .slice(0, -2);
     sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
-    sendDiscordMsg(`에러가 발생했습니다: ${e.message}`);
+    sendDiscordMsg(
+      `에러가 발생했습니다: ${e instanceof Error ? e.message : ""}`
+    );
   }
 
   try {
@@ -56,9 +58,11 @@ schedule.scheduleJob(rule, async () => {
     // 고대 창업 관련 정보 슬랙에 전송
     const kuResult = await getKUListInString();
     sendSlackMessage(kuResult);
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
-    sendSlackMessage(`에러가 발생했습니다: ${e.message}`);
+    sendSlackMessage(
+      `에러가 발생했습니다: ${e instanceof Error ? e.message : ""}`
+    );
   }
 });
 
