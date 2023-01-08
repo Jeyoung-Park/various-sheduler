@@ -1,12 +1,11 @@
 import express, { NextFunction, Request, Response, Router } from "express";
-
-const { getUsers } = require("../controllers/users");
+import { runCronJob } from "../services/cronJob";
 
 const router: Router = express.Router();
 
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
-  const users = await getUsers();
-  res.send({ users });
+  runCronJob();
+  res.send("cron job runned");
 });
 
 export default router;

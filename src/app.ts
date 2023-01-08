@@ -4,10 +4,7 @@ import { login, sendDiscordMsg } from "./services/discord";
 import { checkJandi } from "./services/jandi";
 import { sendSlackMessage } from "./services/slack";
 import { getCAUListInString, getKUListInString } from "./services/slack/univ";
-
-const indexRouter = require("./routes");
-const usersRouter = require("./routes/users");
-const scrapRouter = require("./routes/scrap");
+import indexRouter from "./routes";
 
 require("dotenv").config();
 
@@ -68,9 +65,7 @@ schedule.scheduleJob(rule, async () => {
 
 const app = express();
 
-app.use(indexRouter);
-app.use("/users", usersRouter);
-app.use("/scrap", scrapRouter);
+app.use("/", indexRouter);
 
 app.listen("1234", () => {
   console.log(`
