@@ -1,9 +1,16 @@
 import express, { NextFunction, Request, Response, Router } from "express";
+import usersRouter from "./users";
+import scrapRouter from "./scrap";
+import cronJobRouter from "./cronJob";
 
 const router: Router = express.Router();
 
-router.get("/", async (req: Request, res: Response, next: NextFunction) => {
-  return res.send("welcome");
+router.use("/api/users", usersRouter);
+router.use("/api/scrap", scrapRouter);
+router.use("/api/cronjob", cronJobRouter);
+
+router.get("*", (req: Request, res: Response) => {
+  res.send("welcome!");
 });
 
-module.exports = router;
+export default router;

@@ -1,13 +1,8 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import schedule from "node-schedule";
-import { login, sendDiscordMsg } from "./services/discord";
-import { checkJandi } from "./services/jandi";
-import { sendSlackMessage } from "./services/slack";
-import { getCAUListInString, getKUListInString } from "./services/slack/univ";
-
-const indexRouter = require("./routes");
-const usersRouter = require("./routes/users");
-const scrapRouter = require("./routes/scrap");
+import { login } from "./services/discord";
+import indexRouter from "./routes";
+import { runCronJob } from "./services/cronJob";
 
 require("dotenv").config();
 
@@ -31,46 +26,12 @@ rule.minute = 0;
 rule.hour = 23;
 
 schedule.scheduleJob(rule, async () => {
-  // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
-  try {
-    const data = await checkJandi();
-    const usersWithNoJandi = data
-      .reduce((prev, curr) => {
-        if (!curr.isJandi) {
-          return prev.concat(`${curr.username}, `);
-        }
-        return prev;
-      }, "")
-      .slice(0, -2);
-    sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
-  } catch (e: any) {
-    console.error(e);
-    sendDiscordMsg(
-      `에러가 발생했습니다: ${e instanceof Error ? e.message : ""}`
-    );
-  }
-
-  try {
-    // 중대 창업 관련 정보 슬랙에 전송
-    const cauResult = await getCAUListInString();
-    sendSlackMessage(cauResult);
-
-    // 고대 창업 관련 정보 슬랙에 전송
-    const kuResult = await getKUListInString();
-    sendSlackMessage(kuResult);
-  } catch (e: any) {
-    console.error(e);
-    sendSlackMessage(
-      `에러가 발생했습니다: ${e instanceof Error ? e.message : ""}`
-    );
-  }
+  runCronJob();
 });
 
 const app = express();
 
-app.use(indexRouter);
-app.use("/users", usersRouter);
-app.use("/scrap", scrapRouter);
+app.use("/", indexRouter);
 
 app.listen("1234", () => {
   console.log(`
