@@ -3,7 +3,7 @@ const cheerio = require("cheerio");
 
 const KU_STARTUP_DATA_URL =
   "https://piportal.korea.ac.kr/front/board/list.do?sep_cd=NOTICE";
-
+const CNU_STARTUP_ORIGIN_URL = "https://connect.cnu.ac.kr";
 const CNU_STARTUP_DATA_URL = "https://connect.cnu.ac.kr/startup/startupnotice";
 
 interface UnivData {
@@ -14,7 +14,7 @@ interface UnivData {
 interface KUData extends UnivData {}
 
 interface CNUData extends UnivData {
-  to?: string;
+  link?: string;
 }
 
 export const scrapKUData = async () => {
@@ -45,14 +45,19 @@ export const scrapCNUData = async () => {
     const $ = cheerio.load(html.data);
     const bodyList = $("table.bbs_table > tbody > tr:not(.notice)");
     bodyList.each((item: any, element: any) => {
-      const title = $(element)
-        .find("td.ellipsis.draggable.subject > a")
-        .text()
-        .trim();
-      const createdAt = $(element).find("td.created").text().trim();
-      ulList.push({ title, createdAt });
+      const loadedElement = $(element);
+      const titleElement = loadedElement.find(
+        "td.ellipsis.draggable.subject > a"
+      );
+      const title = titleElement.text().trim();
+      const link = titleElement.attr("href");
+      const createdAt = loadedElement.find("td.created").text().trim();
+      ulList.push({
+        title,
+        createdAt,
+        link: `${CNU_STARTUP_ORIGIN_URL}${link}`,
+      });
     });
-    console.log({ ulList });
     return ulList;
   } catch (error) {
     console.error(error);
