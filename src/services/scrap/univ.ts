@@ -11,12 +11,9 @@ type KUData = {
 
 export const scrapKUData = async () => {
   try {
-    // 1
     const html = await axios.get(KU_DATA_URL);
     let ulList: KUData[] = [];
-    // 2
     const $ = cheerio.load(html.data);
-    // 3
     const bodyList = $(
       "div.component-area > table.tblboardlist.nowriter.writerdivision > tbody > tr:not(.highlighted)"
     );
