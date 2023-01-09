@@ -1,14 +1,14 @@
 {
   "name": "jandi-checker",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc -p . && pm2 start src/app.js",
+    "start": "tsc -p . &&NODE_ENV=production pm2 start src/app.js",
     "stop": "pm2 kill",
     "build": "tsc -p .",
-    "dev": "nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/app.ts"
+    "dev": "NODE_ENV=development nodemon --watch \"src/**/*.ts\" --exec \"ts-node\" src/app.ts"
   },
   "author": "",
   "license": "ISC",
