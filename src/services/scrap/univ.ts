@@ -6,14 +6,16 @@ const KU_STARTUP_DATA_URL =
 
 const CNU_STARTUP_DATA_URL = "https://connect.cnu.ac.kr/startup/startupnotice";
 
-type KUData = {
+interface UnivData {
   title: string;
   createdAt: string;
-};
+}
 
-type CNUData = {
-  title: string;
-};
+interface KUData extends UnivData {}
+
+interface CNUData extends UnivData {
+  to?: string;
+}
 
 export const scrapKUData = async () => {
   try {
@@ -43,9 +45,12 @@ export const scrapCNUData = async () => {
     const $ = cheerio.load(html.data);
     const bodyList = $("table.bbs_table > tbody > tr:not(.notice)");
     bodyList.each((item: any, element: any) => {
-      const title = $(element).find("td.ellipsis.draggable.subject > a").text();
-      // const createdAt = $(element).find("td.datecreated").text().slice(0, -4);
-      ulList.push({ title });
+      const title = $(element)
+        .find("td.ellipsis.draggable.subject > a")
+        .text()
+        .trim();
+      const createdAt = $(element).find("td.created").text().trim();
+      ulList.push({ title, createdAt });
     });
     console.log({ ulList });
     return ulList;
