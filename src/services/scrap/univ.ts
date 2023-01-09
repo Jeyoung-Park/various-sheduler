@@ -6,6 +6,8 @@ const KU_STARTUP_DATA_URL =
   "https://piportal.korea.ac.kr/front/board/list.do?sep_cd=NOTICE";
 const CNU_STARTUP_ORIGIN_URL = "https://connect.cnu.ac.kr";
 const CNU_STARTUP_DATA_URL = "https://connect.cnu.ac.kr/startup/startupnotice";
+const CAU_STARTUP_ORIGIN_URL = "http://changup1.cau.ac.kr/Notice_01/";
+const CAU_STARTUP_DATA_URL = "http://changup1.cau.ac.kr/Notice_01";
 
 interface UnivData {
   title: string;
@@ -13,14 +15,10 @@ interface UnivData {
   link?: string;
 }
 
-interface KUData extends UnivData {}
-
-interface CNUData extends UnivData {}
-
 export const scrapKUData = async () => {
   try {
     const html = await axios.get(KU_STARTUP_DATA_URL);
-    let ulList: KUData[] = [];
+    let ulList: UnivData[] = [];
     const $ = cheerio.load(html.data);
     const bodyList = $(
       "div.component-area > table.tblboardlist.nowriter.writerdivision > tbody > tr:not(.highlighted)"
@@ -52,7 +50,7 @@ export const scrapKUData = async () => {
 export const scrapCNUData = async () => {
   try {
     const html = await axios.get(CNU_STARTUP_DATA_URL);
-    let ulList: CNUData[] = [];
+    let ulList: UnivData[] = [];
     const $ = cheerio.load(html.data);
     const bodyList = $("table.bbs_table > tbody > tr:not(.notice)");
     bodyList.each((item: any, element: any) => {
@@ -69,6 +67,31 @@ export const scrapCNUData = async () => {
         link: `${CNU_STARTUP_ORIGIN_URL}${link}`,
       });
     });
+    return ulList;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const scrapCAUData = async () => {
+  try {
+    const html = await axios.get(CAU_STARTUP_DATA_URL);
+    let ulList: UnivData[] = [];
+    const $ = cheerio.load(html.data);
+    const bodyList = $("div.li_board > ul.li_body.holder");
+    bodyList.each((item: any, element: any) => {
+      const loadedElement = $(element);
+      const titleElement = loadedElement.find("a._fade_link");
+      const title = titleElement.text().trim();
+      const link = titleElement.attr("href");
+      const createdAt = loadedElement.find("li.time").text().trim();
+      ulList.push({
+        title,
+        createdAt,
+        link: `${CAU_STARTUP_ORIGIN_URL}${link}`,
+      });
+    });
+    console.log({ ulList });
     return ulList;
   } catch (error) {
     console.error(error);
