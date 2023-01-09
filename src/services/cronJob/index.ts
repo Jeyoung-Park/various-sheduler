@@ -1,7 +1,11 @@
 import { sendDiscordMsg } from "../discord";
 import { checkJandi } from "../jandi";
 import { sendSlackMessage } from "../slack";
-import { getCAUListInString, getKUListInString } from "../slack/univ";
+import {
+  getCAUListInString,
+  getCNUListInString,
+  getKUListInString,
+} from "../slack/univ";
 
 export const runCronJob = async () => {
   // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
@@ -31,6 +35,10 @@ export const runCronJob = async () => {
     // 고대 창업 관련 정보 슬랙에 전송
     const kuResult = await getKUListInString();
     sendSlackMessage(kuResult);
+
+    // 충남대 창업 관련 정보 슬랙에 전송
+    const cnuResult = await getCNUListInString();
+    sendSlackMessage(cnuResult);
   } catch (e: any) {
     console.error(e);
     sendSlackMessage(
