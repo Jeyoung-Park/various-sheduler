@@ -42,7 +42,8 @@ export const getKUListInString = async () => {
     return prev
       .concat(DIVIDER_STRING)
       .concat(`- ${cur.title}\n`)
-      .concat(`- ${cur.createdAt}\n`);
+      .concat(`- ${cur.createdAt}\n`)
+      .concat(`- 바로가기: ${cur.link}\n`);
   }, initialString);
   return resultInString === ""
     ? "오늘 업데이트된 고려대 창업 정보는 없습니다."
