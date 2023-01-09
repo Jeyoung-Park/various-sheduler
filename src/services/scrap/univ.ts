@@ -1,6 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+const KU_STARTUP_ORIGIN_URL = "https://piportal.korea.ac.kr/front/board/";
 const KU_STARTUP_DATA_URL =
   "https://piportal.korea.ac.kr/front/board/list.do?sep_cd=NOTICE";
 const CNU_STARTUP_ORIGIN_URL = "https://connect.cnu.ac.kr";
@@ -9,13 +10,12 @@ const CNU_STARTUP_DATA_URL = "https://connect.cnu.ac.kr/startup/startupnotice";
 interface UnivData {
   title: string;
   createdAt: string;
+  link?: string;
 }
 
 interface KUData extends UnivData {}
 
-interface CNUData extends UnivData {
-  link?: string;
-}
+interface CNUData extends UnivData {}
 
 export const scrapKUData = async () => {
   try {
@@ -26,11 +26,22 @@ export const scrapKUData = async () => {
       "div.component-area > table.tblboardlist.nowriter.writerdivision > tbody > tr:not(.highlighted)"
     );
     bodyList.each((item: any, element: any) => {
-      const title = $(element)
+      const loadedElement = $(element);
+      const title = loadedElement
         .find("td.withthumbnail > a.thumbholder > span > span.textlink")
         .text();
-      const createdAt = $(element).find("td.datecreated").text().slice(0, -4);
-      ulList.push({ title, createdAt });
+      const link = loadedElement
+        .find("td.withthumbnail>a.thumbholder")
+        .attr("href");
+      const createdAt = loadedElement
+        .find("td.datecreated")
+        .text()
+        .slice(0, -4);
+      ulList.push({
+        title,
+        createdAt,
+        link: `${KU_STARTUP_ORIGIN_URL}${link}`,
+      });
     });
     return ulList;
   } catch (error) {
