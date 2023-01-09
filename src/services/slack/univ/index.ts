@@ -1,5 +1,5 @@
 import { getCAUData } from "../../../api/univ";
-import { scrapKUData } from "../../scrap/univ";
+import { scrapCNUData, scrapKUData } from "../../scrap/univ";
 const dayjs = require("dayjs");
 
 const DIVIDER_STRING = "**************************************\n";
@@ -44,7 +44,7 @@ export const getKUListInString = async () => {
 };
 
 export const getCNUListInString = async () => {
-  const data = await scrapKUData();
+  const data = await scrapCNUData();
   if (!data) return "충남대 정보 크롤링에 실패했습니다";
   const initialString: string = "";
   const resultInString = data.reduce((prev: string, cur: any) => {
