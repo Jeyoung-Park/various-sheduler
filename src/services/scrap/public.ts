@@ -17,6 +17,8 @@ export const scrapKStartupData = async () => {
     let ulList: PublicData[] = [];
     const $ = cheerio.load(html.data);
     const bodyList = $("ul > li");
+    const pageNum = $("div.paginate > a").toArray().length;
+    console.log({ pageNum });
     bodyList.each((item: any, element: any) => {
       const loadedElement = $(element);
       const titleElement = loadedElement.find(
