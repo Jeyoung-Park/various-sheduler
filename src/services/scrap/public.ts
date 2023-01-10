@@ -48,7 +48,6 @@ const scrapTotalData = async (pageNumber: number): Promise<PublicData[]> => {
   let resultData: PublicData[] = [];
   for (let i = 1; i <= pageNumber; i++) {
     resultData = await scrapSinglePageDataAsync(resultData, i);
-    console.log({ resultData_length: resultData.length });
   }
   return resultData;
 };
