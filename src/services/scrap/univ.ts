@@ -91,7 +91,6 @@ export const scrapCAUData = async () => {
         link: `${CAU_STARTUP_ORIGIN_URL}${link}`,
       });
     });
-    console.log({ ulList });
     return ulList;
   } catch (error) {
     console.error(error);
