@@ -59,6 +59,7 @@ export const scrapKStartupData = async () => {
     const $ = cheerio.load(html.data);
     const pageNum = $("div.paginate > a").toArray().length;
     const data = await scrapTotalData(pageNum);
+    return data;
   } catch (error) {
     console.error(error);
   }
