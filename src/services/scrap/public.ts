@@ -8,6 +8,7 @@ const K_STARTUP_URL =
 
 interface PublicData {
   title: string;
+  createdAt: string;
   link?: string;
 }
 
@@ -15,10 +16,8 @@ const scrapSinglePageDataAsync = (
   accData: PublicData[],
   pageNum: number
 ): Promise<PublicData[]> => {
-  console.log("scrapSinglePageDataAsync", pageNum);
   return new Promise((resolve) =>
     setTimeout(async () => {
-      // const singlePageData = await scrapSinglePageData(startValue);
       const html = await axios.get(`${K_STARTUP_URL}?page=${pageNum}`);
       let ulList: PublicData[] = [];
       const $ = cheerio.load(html.data);
@@ -29,10 +28,14 @@ const scrapSinglePageDataAsync = (
           "div.inner > div.right > div.middle > a > div.tit_wrap > p.tit"
         );
         const title = titleElement.text().trim();
-        //   const createdAt = loadedElement.find("td.created").text().trim();
+        const createdAt = loadedElement
+          .find("div.inner > div.right > div.bottom > span.list")
+          .text();
+        const createdAtReg = new RegExp(/등록일자 \d{4}-\d{2}-\d{2}/, "g");
+        const dateReg = new RegExp(/\d{4}-\d{2}-\d{2}/, "g");
         ulList.push({
           title,
-          // createdAt,
+          createdAt: createdAt.match(createdAtReg)[0].match(dateReg)[0],
           link: K_STARTUP_ORIGIN_URL,
         });
       });
