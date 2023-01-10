@@ -8,7 +8,5 @@ slack.setWebhook(
 );
 
 export const sendSlackMessage = async (message: string) => {
-  slack.webhook({ text: message }, (err: any, response: any) => {
-    console.log({ response });
-  });
+  slack.webhook({ text: message }, (err: any, response: any) => {});
 };
