@@ -3,7 +3,7 @@ import { getCAUData } from "../api/univ";
 
 const router: Router = express.Router();
 
-router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+router.get("/cau", async (req: Request, res: Response, next: NextFunction) => {
   const search = req.query.search as string;
   if (!search) {
     return res.status(403).json({ message: "search x" });
