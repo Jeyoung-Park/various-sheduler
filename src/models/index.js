@@ -25,4 +25,7 @@ User.init(sequelize);
 Scrap.init(sequelize);
 ScrapData.init(sequelize);
 
+Scrap.associate(db);
+ScrapData.associate(db);
+
 module.exports = db;
