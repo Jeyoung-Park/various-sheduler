@@ -71,7 +71,6 @@ export const scrapWevityData = async () => {
     let ulList: PublicData[] = [];
     const $ = cheerio.load(html.data);
     const bodyList = $("div.ms-list > ul.list > li:not(.top)");
-    console.log(bodyList.html());
     bodyList.each((item: any, element: any) => {
       const loadedElement = $(element);
       const titleElement = loadedElement.find("div.tit > a");
