@@ -1,6 +1,7 @@
 const { ScrapData: ScrapDataModel } = require("../../models");
 
 interface ScrapData {
+  id: number;
   title: string;
   sourceId: string;
   createdAt?: string | Date;
@@ -14,7 +15,7 @@ export const postScrapData = async ({
   dueDate,
   link,
   sourceId,
-}: ScrapData) => {
+}: Partial<ScrapData>) => {
   const res = await ScrapDataModel.create({
     title,
     created_at: createdAt,
