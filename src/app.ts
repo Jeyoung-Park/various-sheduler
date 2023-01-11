@@ -31,6 +31,11 @@ schedule.scheduleJob(rule, async () => {
 
 const app = express();
 
+//  application/json의 Content-Type에 대해 파싱해주는 역할
+app.use(express.json());
+// application/x-www-form-urlencoded의 Content-Type에 대해 파싱해주는 역할
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/", indexRouter);
 
 app.listen("1234", () => {

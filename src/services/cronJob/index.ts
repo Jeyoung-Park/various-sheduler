@@ -1,7 +1,10 @@
 import { sendDiscordMsg } from "../discord";
 import { checkJandi } from "../jandi";
 import { sendSlackMessage } from "../slack";
-import { getKStartupListInString } from "../slack/public";
+import {
+  getKStartupListInString,
+  getWevityListInString,
+} from "../slack/public";
 import {
   getCAUListInString,
   getCNUListInString,
@@ -41,9 +44,9 @@ export const runCronJob = async () => {
     const cnuResult = await getCNUListInString();
     sendSlackMessage(cnuResult);
 
-    // kStartup 창업 관련 정보 슬랙에 전송
-    const kstartupResult = await getKStartupListInString();
-    sendSlackMessage(kstartupResult);
+    // wevity 창업 관련 정보 슬랙에 전송
+    const wevityResult = await getWevityListInString();
+    sendSlackMessage(wevityResult);
   } catch (e: any) {
     console.error(e);
     sendSlackMessage(

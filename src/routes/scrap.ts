@@ -1,21 +1,29 @@
 import express, { NextFunction, Request, Response, Router } from "express";
-import { getCAUData } from "../api/univ";
+import { getScrap, postScrap } from "../controllers/scrap";
 
 const router: Router = express.Router();
 
-router.get("/", async (req: Request, res: Response, next: NextFunction) => {
-  const search = req.query.search as string;
-  if (!search) {
-    return res.status(403).json({ message: "search x" });
-  }
-  const data = await getCAUData(search);
-  const filteredList = data.data.list.map((item: any) => ({
-    id: item.ORD_NO,
-    title: item.SUBJECT,
-    content: item.SUB_CONTENTS,
-    wroteAt: item.WRITE_DATE,
-  }));
-  res.status(200).json({ data: filteredList });
-});
+router
+  .route("/")
+  .get(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const data = await getScrap();
+      res.status(200).json({ message: "getScrap success", data });
+    } catch (err) {
+      console.error(err);
+      res.json({ error: (err as Error).message || (err as Error).toString() });
+    }
+  })
+  .post(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { source = "", sourceUrl = "" } = req.body;
+      if (source === "") throw new Error("id or sourceId required");
+      const data = await postScrap({ source, sourceUrl });
+      res.status(201).json({ message: "scrap successfully created.", data });
+    } catch (err) {
+      console.error(err);
+      res.json({ error: (err as Error).message || (err as Error).toString() });
+    }
+  });
 
 export default router;

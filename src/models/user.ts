@@ -5,11 +5,11 @@ module.exports = class User extends Sequelize.Model {
     return super.init(
       {
         name: {
-          type: Sequelize.STRING(20),
+          type: Sequelize.DataTypes.STRING(20),
           allowNull: true,
         },
         github_id: {
-          type: Sequelize.STRING(30),
+          type: Sequelize.DataTypes.STRING(30),
           allowNull: false,
         },
       },
