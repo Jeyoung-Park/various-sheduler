@@ -1,4 +1,4 @@
-import { scrapKStartupData } from "../../scrap/public";
+import { scrapKStartupData, scrapWevityData } from "../../scrap/public";
 
 const dayjs = require("dayjs");
 
@@ -19,4 +19,19 @@ export const getKStartupListInString = async () => {
   return resultInString === ""
     ? "오늘 업데이트된 K-Startup 정보는 없습니다."
     : `K-Startup 정보\n${resultInString}`;
+};
+
+export const getWevityListInString = async () => {
+  const data = await scrapWevityData();
+  if (!data) return "wevity 크롤링에 실패했습니다";
+  const initialString: string = "";
+  const resultInString = data.reduce((prev: string, cur: any) => {
+    return prev
+      .concat(DIVIDER_STRING)
+      .concat(`- ${cur.title}\n`)
+      .concat(`- 바로가기: ${cur.link}\n`);
+  }, initialString);
+  return resultInString === ""
+    ? "오늘 업데이트된 위비티 정보는 없습니다."
+    : `위비티 정보\n${resultInString}`;
 };

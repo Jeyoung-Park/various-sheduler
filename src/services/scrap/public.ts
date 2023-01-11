@@ -87,10 +87,14 @@ export const scrapWevityData = async () => {
     });
     const wevityResult = await getScrapByTitle(WEVITY);
     const scrapData = await getScrapDataById(wevityResult.id);
+    const recentItem = ulList[0];
+    if (recentItem.title === scrapData.title) {
+      return [];
+    }
+
     const searchIndex = ulList.findIndex((item) =>
       item.title.includes(scrapData.title)
     );
-    const recentItem = ulList[0];
     await postScrapData({ title: recentItem.title, link: recentItem.link });
     if (searchIndex === -1) {
       return ulList;
