@@ -9,19 +9,23 @@ module.exports = class ScrapData extends Model {
           type: DataTypes.STRING,
           allowNull: false,
         },
-        createdAt: {
+        created_at: {
           type: DataTypes.DATE,
           defaultValue: DataTypes.NOW,
         },
-        dueDate: {
+        due_date: {
           type: DataTypes.DATE,
         },
       },
       {
-        modelName: "ScrapData", // We need to choose the model name
+        sequelize,
+        timestamps: false,
+        modelName: "ScrapData",
+        tableName: "scrap_data",
+        paranoid: false,
+        charset: "utf8mb4",
+        collate: "utf8mb4_general_ci",
       }
     );
   }
 };
-
-export {};

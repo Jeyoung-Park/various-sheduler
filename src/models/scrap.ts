@@ -1,16 +1,17 @@
-const { Model, DataTypes } = require("sequelize");
+export {};
+const Sequelize = require("sequelize");
 
-class Scrap extends Model {
+class Scrap extends Sequelize.Model {
   static init(sequelize: any) {
     return super.init(
       {
         id: {
-          type: DataTypes.INTEGER,
+          type: Sequelize.DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,
         },
         source: {
-          type: DataTypes.STRING,
+          type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
       },
@@ -25,6 +26,10 @@ class Scrap extends Model {
       }
     );
   }
+
+  // static associate(db:any) {
+  //   db.User.hasMany(db.ScrapData, { foreignKey: 'commenter', sourceKey: 'id' });
+  // }
 }
 
 module.exports = Scrap;
