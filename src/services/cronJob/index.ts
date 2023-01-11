@@ -44,9 +44,13 @@ export const runCronJob = async () => {
     const cnuResult = await getCNUListInString();
     sendSlackMessage(cnuResult);
 
-    // wevity 창업 관련 정보 슬랙에 전송
+    // wevity 정보 슬랙에 전송
     const wevityResult = await getWevityListInString();
     sendSlackMessage(wevityResult);
+
+    // kstartup 창업 관련 정보 슬랙에 전송
+    const kStartupResult = await getKStartupListInString();
+    sendSlackMessage(kStartupResult);
   } catch (e: any) {
     console.error(e);
     sendSlackMessage(
