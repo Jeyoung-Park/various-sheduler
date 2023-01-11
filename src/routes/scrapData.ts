@@ -20,15 +20,9 @@ router
   })
   .post(async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const {
-        title = "",
-        createdAt = "",
-        dueDate = "",
-        link = "",
-        sourceId = "",
-      } = req.body;
-      if (title === "" || sourceId === "")
-        throw new Error("id or sourceId required");
+      const { title, createdAt, dueDate, link, sourceId } = req.body;
+      if (!Boolean(title) || !Boolean(sourceId))
+        throw new Error("title or sourceId required");
       const data = await postScrapData({
         title,
         createdAt,
@@ -36,6 +30,7 @@ router
         link,
         sourceId,
       });
+      if (!data) throw new Error("scrap data failed to create.");
       res
         .status(201)
         .json({ message: "scrap data successfully created.", data });
