@@ -5,10 +5,11 @@ const K_STARTUP_ORIGIN_URL =
   "https://www.k-startup.go.kr/web/contents/bizpbanc-ongoing.do";
 const K_STARTUP_URL =
   "https://www.k-startup.go.kr/web/module/bizpbanc-ongoing_bizpbanc-inquiry-ajax.do";
+const WEVITY_URL = "https://www.wevity.com/";
 
 interface PublicData {
   title: string;
-  createdAt: string;
+  createdAt?: string;
   link?: string;
 }
 
@@ -59,6 +60,29 @@ export const scrapKStartupData = async () => {
     const pageNum = $("div.paginate > a").toArray().length;
     const data = await scrapTotalData(pageNum);
     return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const scrapWevityData = async () => {
+  try {
+    const html = await axios.get(WEVITY_URL);
+    let ulList: PublicData[] = [];
+    const $ = cheerio.load(html.data);
+    const bodyList = $("div.ms-list > ul.list > li:not(.top)");
+    console.log(bodyList.html());
+    bodyList.each((item: any, element: any) => {
+      const loadedElement = $(element);
+      const titleElement = loadedElement.find("div.tit > a");
+      const title = titleElement.text().trim();
+      const link = titleElement.attr("href");
+      ulList.push({
+        title,
+        link: `${WEVITY_URL}${link}`,
+      });
+    });
+    return ulList;
   } catch (error) {
     console.error(error);
   }
