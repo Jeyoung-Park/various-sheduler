@@ -15,6 +15,9 @@ module.exports = class ScrapData extends Model {
         due_date: {
           type: DataTypes.DATE,
         },
+        link: {
+          type: DataTypes.STRING,
+        },
       },
       {
         sequelize,
