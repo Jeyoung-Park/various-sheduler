@@ -35,6 +35,15 @@ export const getScrapData = async () => {
   return res;
 };
 
+export const getScrapDataById = async (id: number) => {
+  const res = await ScrapDataModel.findOne({ where: { source_id: id } }).catch(
+    (e: any) => {
+      console.error("getScrapData error:", e);
+    }
+  );
+  return res;
+};
+
 export const deleteScrapData = async (id: string) => {
   const res = await ScrapDataModel.destroy({ where: { id } }).catch(
     (e: any) => {

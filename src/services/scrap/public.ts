@@ -1,3 +1,6 @@
+import { getScrapByTitle } from "../../controllers/scrap";
+import { getScrapDataById, postScrapData } from "../../controllers/scrapData";
+
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -66,6 +69,7 @@ export const scrapKStartupData = async () => {
 };
 
 export const scrapWevityData = async () => {
+  const WEVITY = "wevity";
   try {
     const html = await axios.get(WEVITY_URL);
     let ulList: PublicData[] = [];
@@ -81,7 +85,18 @@ export const scrapWevityData = async () => {
         link: `${WEVITY_URL}${link}`,
       });
     });
-    return ulList;
+    const wevityResult = await getScrapByTitle(WEVITY);
+    const scrapData = await getScrapDataById(wevityResult.id);
+    const searchIndex = ulList.findIndex((item) =>
+      item.title.includes(scrapData.title)
+    );
+    const recentItem = ulList[0];
+    await postScrapData({ title: recentItem.title, link: recentItem.link });
+    if (searchIndex === -1) {
+      return ulList;
+    } else {
+      return ulList.slice(0, searchIndex);
+    }
   } catch (error) {
     console.error(error);
   }

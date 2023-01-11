@@ -30,6 +30,7 @@ router
         link,
         sourceId,
       });
+      // TODO: sourceId 검증하기
       if (!data) throw new Error("scrap data failed to create.");
       res
         .status(201)
