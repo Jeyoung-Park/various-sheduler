@@ -1,4 +1,4 @@
-const { ScrapData } = require("../../models/scrapData");
+const { ScrapData: ScrapDataModel } = require("../../models");
 
 interface ScrapData {
   title: string;
@@ -8,14 +8,14 @@ interface ScrapData {
   link?: string;
 }
 
-const postScrapData = async ({
+export const postScrapData = async ({
   title,
   createdAt,
   dueDate,
   link,
   sourceId,
 }: ScrapData) => {
-  const res = await ScrapData.create({
+  const res = await ScrapDataModel.create({
     title,
     created_at: createdAt,
     due_date: dueDate,
@@ -27,16 +27,18 @@ const postScrapData = async ({
   return res;
 };
 
-const getScrapData = async () => {
-  const res = await ScrapData.findAll().catch((e: any) => {
+export const getScrapData = async () => {
+  const res = await ScrapDataModel.findAll().catch((e: any) => {
     console.error("getScrapData error:", e);
   });
   return res;
 };
 
-const deleteScrapData = async (id: string) => {
-  const res = await ScrapData.destroy({ where: { id } }).catch((e: any) => {
-    console.error("deleteScrapData error:", e);
-  });
+export const deleteScrapData = async (id: string) => {
+  const res = await ScrapDataModel.destroy({ where: { id } }).catch(
+    (e: any) => {
+      console.error("deleteScrapData error:", e);
+    }
+  );
   return res;
 };
