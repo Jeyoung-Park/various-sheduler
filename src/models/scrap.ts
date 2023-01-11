@@ -9,6 +9,9 @@ class Scrap extends Sequelize.Model {
           type: Sequelize.DataTypes.STRING,
           allowNull: false,
         },
+        source_url: {
+          type: Sequelize.DataTypes.STRING,
+        },
       },
       {
         sequelize,
