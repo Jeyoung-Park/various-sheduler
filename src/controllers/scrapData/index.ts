@@ -35,7 +35,7 @@ export const getScrapData = async () => {
   return res;
 };
 
-export const getScrapDataById = async (id: number) => {
+export const getScrapDataBySourceId = async (id: number) => {
   const res = await ScrapDataModel.findOne({ where: { source_id: id } }).catch(
     (e: any) => {
       console.error("getScrapData error:", e);

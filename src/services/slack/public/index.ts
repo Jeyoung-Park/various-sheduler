@@ -23,7 +23,7 @@ export const getKStartupListInString = async () => {
 
 export const getWevityListInString = async () => {
   const data = await scrapWevityData();
-  if (!data) return "wevity 크롤링에 실패했습니다";
+  if (data === undefined) return "wevity 크롤링에 실패했습니다";
   const initialString: string = "";
   const resultInString = data.reduce((prev: string, cur: any) => {
     return prev
@@ -31,7 +31,7 @@ export const getWevityListInString = async () => {
       .concat(`- ${cur.title}\n`)
       .concat(`- 바로가기: ${cur.link}\n`);
   }, initialString);
-  return resultInString === ""
+  return data.length === 0
     ? "오늘 업데이트된 위비티 정보는 없습니다."
     : `위비티 정보\n${resultInString}`;
 };

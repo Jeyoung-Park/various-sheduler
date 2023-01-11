@@ -1,5 +1,9 @@
 import { getScrapByTitle } from "../../controllers/scrap";
-import { getScrapDataById, postScrapData } from "../../controllers/scrapData";
+import {
+  deleteScrapData,
+  getScrapDataBySourceId,
+  postScrapData,
+} from "../../controllers/scrapData";
 
 const axios = require("axios");
 const cheerio = require("cheerio");
@@ -86,16 +90,32 @@ export const scrapWevityData = async () => {
       });
     });
     const wevityResult = await getScrapByTitle(WEVITY);
-    const scrapData = await getScrapDataById(wevityResult.id);
+    const scrapData = await getScrapDataBySourceId(Number(wevityResult.id));
     const recentItem = ulList[0];
-    if (recentItem.title === scrapData.title) {
+
+    if (scrapData === null) {
+      await postScrapData({
+        title: recentItem.title,
+        link: recentItem.link,
+        sourceId: wevityResult.id,
+      });
+      return ulList;
+    }
+
+    if (recentItem.title.includes(scrapData)) {
       return [];
     }
 
     const searchIndex = ulList.findIndex((item) =>
       item.title.includes(scrapData.title)
     );
-    await postScrapData({ title: recentItem.title, link: recentItem.link });
+
+    await deleteScrapData(scrapData.id);
+    await postScrapData({
+      title: recentItem.title,
+      link: recentItem.link,
+      sourceId: wevityResult.id,
+    });
     if (searchIndex === -1) {
       return ulList;
     } else {
