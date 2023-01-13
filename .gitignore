@@ -1,3 +1,4 @@
 .env
 *.pem
 .bash_profile
+node_modules/
