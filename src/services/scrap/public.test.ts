@@ -13,7 +13,8 @@ describe("wevity", () => {
 
     const wevityResult = await getScrapByTitle(WEVITY);
     expect(!!wevityResult.id).toBeTruthy();
-    const scrapData = await getScrapDataBySourceId(Number(wevityResult.id));
+    const scrapResult = await getScrapDataBySourceId(Number(wevityResult.id));
+    const scrapData = scrapResult?.dataValues ?? scrapResult;
     console.log({ scrapData });
     expect(scrapData !== undefined).toBeTruthy();
   });
