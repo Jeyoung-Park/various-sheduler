@@ -97,7 +97,8 @@ export const scrapWevityData = async () => {
   try {
     const ulList = await scrapWevity();
     const wevityResult = await getScrapByTitle(WEVITY);
-    const scrapData = await getScrapDataBySourceId(Number(wevityResult.id));
+    const scrapResult = await getScrapDataBySourceId(Number(wevityResult.id));
+    const scrapData = scrapResult?.dataValues ?? scrapResult;
     const recentItem = ulList[0];
 
     if (!scrapData || scrapData.length === 0) {

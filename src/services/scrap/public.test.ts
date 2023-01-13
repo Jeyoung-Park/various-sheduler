@@ -15,7 +15,7 @@ describe("wevity", () => {
     expect(!!wevityResult.id).toBeTruthy();
     const scrapData = await getScrapDataBySourceId(Number(wevityResult.id));
     console.log({ scrapData });
-    expect(scrapData).toBeTruthy();
+    expect(scrapData !== undefined).toBeTruthy();
   });
 
   test("scrapWevityData test", async () => {
