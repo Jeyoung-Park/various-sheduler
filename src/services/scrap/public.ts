@@ -52,7 +52,9 @@ const scrapSinglePageDataAsync = (
   );
 };
 
-const scrapTotalData = async (pageNumber: number): Promise<PublicData[]> => {
+export const scrapTotalData = async (
+  pageNumber: number
+): Promise<PublicData[]> => {
   let resultData: PublicData[] = [];
   for (let i = 1; i <= pageNumber; i++) {
     resultData = await scrapSinglePageDataAsync(resultData, i);
@@ -72,23 +74,28 @@ export const scrapKStartupData = async () => {
   }
 };
 
+export const scrapWevity = async () => {
+  const html = await axios.get(WEVITY_URL);
+  let ulList: PublicData[] = [];
+  const $ = cheerio.load(html.data);
+  const bodyList = $("div.ms-list > ul.list > li:not(.top)");
+  bodyList.each((item: any, element: any) => {
+    const loadedElement = $(element);
+    const titleElement = loadedElement.find("div.tit > a");
+    const title = titleElement.text().trim();
+    const link = titleElement.attr("href");
+    ulList.push({
+      title,
+      link: `${WEVITY_URL}${link}`,
+    });
+  });
+  return ulList;
+};
+
 export const scrapWevityData = async () => {
   const WEVITY = "wevity";
   try {
-    const html = await axios.get(WEVITY_URL);
-    let ulList: PublicData[] = [];
-    const $ = cheerio.load(html.data);
-    const bodyList = $("div.ms-list > ul.list > li:not(.top)");
-    bodyList.each((item: any, element: any) => {
-      const loadedElement = $(element);
-      const titleElement = loadedElement.find("div.tit > a");
-      const title = titleElement.text().trim();
-      const link = titleElement.attr("href");
-      ulList.push({
-        title,
-        link: `${WEVITY_URL}${link}`,
-      });
-    });
+    const ulList = await scrapWevity();
     const wevityResult = await getScrapByTitle(WEVITY);
     const scrapData = await getScrapDataBySourceId(Number(wevityResult.id));
     const recentItem = ulList[0];
