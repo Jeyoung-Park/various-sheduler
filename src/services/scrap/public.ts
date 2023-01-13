@@ -93,7 +93,7 @@ export const scrapWevityData = async () => {
     const scrapData = await getScrapDataBySourceId(Number(wevityResult.id));
     const recentItem = ulList[0];
 
-    if (scrapData === null) {
+    if (!scrapData || scrapData.length === 0) {
       await postScrapData({
         title: recentItem.title,
         link: recentItem.link,
