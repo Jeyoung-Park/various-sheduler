@@ -17,7 +17,7 @@ router
   .post(async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { source = "", sourceUrl = "" } = req.body;
-      if (source === "") throw new Error("id or sourceId required");
+      if (source === "") throw new Error("sourceId required");
       const data = await postScrap({ source, sourceUrl });
       res.status(201).json({ message: "scrap successfully created.", data });
     } catch (err) {
