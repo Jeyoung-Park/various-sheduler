@@ -38,10 +38,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", indexRouter);
 
-app.listen("1234", () => {
+app.listen(process.env.PORT, () => {
   console.log(`
   ################################################
-  🛡️  Server listening on port: 1234🛡️
+  🛡️  Server listening on port: ${process.env.PORT}
   ################################################
 `);
 });
