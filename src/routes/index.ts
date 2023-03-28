@@ -4,6 +4,7 @@ import univ from "./univ";
 import cronJobRouter from "./cronJob";
 import scrapDataRouter from "./scrapData";
 import scrapRouter from "./scrap";
+import booksRouter from "./books";
 
 const router: Router = express.Router();
 
@@ -12,6 +13,7 @@ router.use("/api/univ", univ);
 router.use("/api/cronjob", cronJobRouter);
 router.use("/api/scrapdata", scrapDataRouter);
 router.use("/api/scrap", scrapRouter);
+router.use("/api/books", booksRouter);
 
 router.get("*", (req: Request, res: Response) => {
   res.send("welcome!");
