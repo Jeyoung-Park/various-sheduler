@@ -5,6 +5,7 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 export const login = () => {
   client.login(process.env.DISCORD_BOT_TOKEN_JANDI);
   client.login(process.env.DISCORD_BOT_TOKEN_CAU);
+  client.login(process.env.DISCORD_BOT_TOKEN_KU);
 };
 
 export const sendDiscordMsg = (msg = "", channelId = "") => {

@@ -16,6 +16,11 @@ const CHANNEL_ID_CAU =
     ? process.env.CHANNEL_ID_CAU_DEV
     : process.env.CHANNEL_ID_CAU;
 
+const CHANNEL_ID_KU =
+  process.env.NODE_ENV !== "production"
+    ? process.env.CHANNEL_ID_KU_DEV
+    : process.env.CHANNEL_ID_KU;
+
 export const runCronJob = async () => {
   // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
   try {
@@ -51,6 +56,7 @@ export const runCronJob = async () => {
     // 고대 창업 관련 정보 슬랙에 전송
     const kuResult = await getKUListInString();
     sendSlackMessage(kuResult);
+    sendDiscordMsg(kuResult, CHANNEL_ID_KU);
 
     // 충남대 창업 관련 정보 슬랙에 전송
     // const cnuResult = await getCNUListInString();
