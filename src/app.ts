@@ -2,10 +2,13 @@ import express from "express";
 import schedule from "node-schedule";
 import indexRouter from "./routes";
 import { runCronJob } from "./services/cronJob";
+import { login } from "./services/discord";
 
 require("dotenv").config();
 
 const { sequelize } = require("./models");
+
+login();
 
 sequelize
   .sync({ force: false })
