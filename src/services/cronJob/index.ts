@@ -1,15 +1,7 @@
 import { sendDiscordMsg } from "../discord";
 import { checkJandi } from "../jandi";
 import { sendSlackMessage } from "../slack";
-import {
-  getKStartupListInString,
-  getWevityListInString,
-} from "../slack/public";
-import {
-  getCAUListInString,
-  getCNUListInString,
-  getKUListInString,
-} from "../slack/univ";
+import { getCAUListInString, getKUListInString } from "../slack/univ";
 
 export const runCronJob = async () => {
   // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
