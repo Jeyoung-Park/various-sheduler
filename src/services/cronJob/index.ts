@@ -41,8 +41,8 @@ export const runCronJob = async () => {
     sendSlackMessage(kuResult);
 
     // 충남대 창업 관련 정보 슬랙에 전송
-    const cnuResult = await getCNUListInString();
-    sendSlackMessage(cnuResult);
+    // const cnuResult = await getCNUListInString();
+    // sendSlackMessage(cnuResult);
 
     // wevity 정보 슬랙에 전송
     const wevityResult = await getWevityListInString();
