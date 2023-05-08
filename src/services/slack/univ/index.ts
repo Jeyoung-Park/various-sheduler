@@ -1,6 +1,11 @@
 import { getCAUData, getCAUDataAPI } from "../../../api/univ";
 import { scrapCAUData, scrapCNUData, scrapKUData } from "../../scrap/univ";
 const dayjs = require("dayjs");
+// const timezone = require("dayjs/plugin/timezone");
+// const utc = require("dayjs/plugin/utc");
+// dayjs.extend(utc);
+// dayjs.extend(timezone);
+// dayjs.tz.setDefault("Asia/Seoul");
 
 const DIVIDER_STRING = "**************************************\n";
 const CAU_NOTICE_URL =
@@ -30,7 +35,8 @@ export const getCAUNoticeListInString = async () => {
   });
   const initialString: string = "";
   const resultInString = filteredList.reduce((prev: string, cur: any) => {
-    if (!dayjs().isSame(new Date(cur.wroteAt), "day")) return prev;
+    if (!dayjs().add(-1, "day").isSame(new Date(cur.wroteAt), "day"))
+      return prev;
     return prev
       .concat(DIVIDER_STRING)
       .concat(`- ${cur.title}\n`)
@@ -46,7 +52,8 @@ export const getCAUStartupListInString = async () => {
   if (!data) return "중대 정보 크롤링에 실패했습니다";
   const initialString: string = "";
   const resultInString = data.reduce((prev: string, cur: any) => {
-    if (!dayjs().isSame(new Date(cur.createdAt), "day")) return prev;
+    if (!dayjs().add(-1, "day").isSame(new Date(cur.createdAt), "day"))
+      return prev;
     return prev
       .concat(DIVIDER_STRING)
       .concat(`- ${cur.title}\n`)
@@ -78,7 +85,8 @@ export const getCNUListInString = async () => {
   if (!data) return "충남대 정보 크롤링에 실패했습니다";
   const initialString: string = "";
   const resultInString = data.reduce((prev: string, cur: any) => {
-    if (!dayjs().isSame(new Date(cur.createdAt), "day")) return prev;
+    if (!dayjs().add(-1, "day").isSame(new Date(cur.createdAt), "day"))
+      return prev;
     return prev
       .concat(DIVIDER_STRING)
       .concat(`- ${cur.title}\n`)
