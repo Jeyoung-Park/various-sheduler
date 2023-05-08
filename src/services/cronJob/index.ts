@@ -25,11 +25,15 @@ export const runCronJob = async () => {
         return prev;
       }, "")
       .slice(0, -2);
-    sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`);
+    sendDiscordMsg(
+      `잔디 안 심은 사람: ${usersWithNoJandi}`,
+      process.env.CHANNEL_ID_JANDI
+    );
   } catch (e: any) {
     console.error(e);
     sendDiscordMsg(
-      `에러가 발생했습니다: ${e instanceof Error ? e.message : ""}`
+      `에러가 발생했습니다: ${e instanceof Error ? e.message : ""}`,
+      process.env.CHANNEL_ID_JANDI
     );
   }
 
