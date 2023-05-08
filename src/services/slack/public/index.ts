@@ -9,7 +9,8 @@ export const getKStartupListInString = async () => {
   if (!data) return "K-Startup 크롤링에 실패했습니다";
   const initialString: string = "";
   const resultInString = data.reduce((prev: string, cur: any) => {
-    if (!dayjs().isSame(new Date(cur.createdAt), "day")) return prev;
+    if (!dayjs().add(-1, "day").isSame(new Date(cur.createdAt), "day"))
+      return prev;
     return prev
       .concat(DIVIDER_STRING)
       .concat(`- ${cur.title}\n`)

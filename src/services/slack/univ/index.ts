@@ -1,6 +1,11 @@
 import { getCAUData, getCAUDataAPI } from "../../../api/univ";
 import { scrapCAUData, scrapCNUData, scrapKUData } from "../../scrap/univ";
 const dayjs = require("dayjs");
+// const timezone = require("dayjs/plugin/timezone");
+// const utc = require("dayjs/plugin/utc");
+// dayjs.extend(utc);
+// dayjs.extend(timezone);
+// dayjs.tz.setDefault("Asia/Seoul");
 
 const DIVIDER_STRING = "**************************************\n";
 const CAU_NOTICE_URL =
