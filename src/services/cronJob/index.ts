@@ -14,6 +14,8 @@ import {
 export const runCronJob = async () => {
   // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
   try {
+    if (process.env.NODE_ENV !== "production") return;
+
     const data = await checkJandi();
     const usersWithNoJandi = data
       .reduce((prev, curr) => {
