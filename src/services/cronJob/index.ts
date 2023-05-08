@@ -11,16 +11,6 @@ import {
   getKUListInString,
 } from "../slack/univ";
 
-const CHANNEL_ID_CAU =
-  process.env.NODE_ENV !== "production"
-    ? process.env.CHANNEL_ID_CAU_DEV
-    : process.env.CHANNEL_ID_CAU;
-
-const CHANNEL_ID_KU =
-  process.env.NODE_ENV !== "production"
-    ? process.env.CHANNEL_ID_KU_DEV
-    : process.env.CHANNEL_ID_KU;
-
 export const runCronJob = async () => {
   // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
   try {
@@ -34,16 +24,13 @@ export const runCronJob = async () => {
           return prev;
         }, "")
         .slice(0, -2);
-      sendDiscordMsg(
-        `잔디 안 심은 사람: ${usersWithNoJandi}`,
-        process.env.CHANNEL_ID_JANDI
-      );
+      sendDiscordMsg(`잔디 안 심은 사람: ${usersWithNoJandi}`, "JANDI");
     }
   } catch (e: any) {
     console.error(e);
     sendDiscordMsg(
       `에러가 발생했습니다: ${e instanceof Error ? e.message : ""}`,
-      process.env.CHANNEL_ID_JANDI
+      "JANDI"
     );
   }
 
@@ -51,12 +38,12 @@ export const runCronJob = async () => {
     // 중대 창업 관련 정보 슬랙에 전송
     const cauResult = await getCAUListInString();
     sendSlackMessage(cauResult);
-    sendDiscordMsg(cauResult, CHANNEL_ID_CAU);
+    sendDiscordMsg(cauResult, "CAU");
 
     // 고대 창업 관련 정보 슬랙에 전송
     const kuResult = await getKUListInString();
     sendSlackMessage(kuResult);
-    sendDiscordMsg(kuResult, CHANNEL_ID_KU);
+    sendDiscordMsg(kuResult, "KU");
 
     // 충남대 창업 관련 정보 슬랙에 전송
     // const cnuResult = await getCNUListInString();
