@@ -49,8 +49,8 @@ export const runCronJob = async () => {
     // sendSlackMessage(wevityResult);
 
     // kstartup 창업 관련 정보 슬랙에 전송
-    const kStartupResult = await getKStartupListInString();
-    sendSlackMessage(kStartupResult);
+    // const kStartupResult = await getKStartupListInString();
+    // sendSlackMessage(kStartupResult);
   } catch (e: any) {
     console.error(e);
     sendSlackMessage(
