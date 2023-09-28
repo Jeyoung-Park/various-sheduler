@@ -19,13 +19,23 @@ sequelize
     console.error(err);
   });
 
-const rule = new schedule.RecurrenceRule();
-rule.tz = "Asia/Seoul";
-rule.second = 0;
-rule.minute = 0;
-rule.hour = 9;
+const ruleStartUp = new schedule.RecurrenceRule();
+ruleStartUp.tz = "Asia/Seoul";
+ruleStartUp.second = 0;
+ruleStartUp.minute = 0;
+ruleStartUp.hour = 9;
 
-schedule.scheduleJob(rule, async () => {
+schedule.scheduleJob(ruleStartUp, async () => {
+  runCronJobStartUp();
+});
+
+const ruleJandi = new schedule.RecurrenceRule();
+ruleJandi.tz = "Asia/Seoul";
+ruleJandi.second = 0;
+ruleJandi.minute = 0;
+ruleJandi.hour = 23;
+
+schedule.scheduleJob(ruleJandi, async () => {
   runCronJobStartUp();
 });
 
