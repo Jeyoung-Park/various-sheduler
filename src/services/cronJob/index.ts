@@ -2,6 +2,7 @@ import { sendDiscordMsg } from "../discord";
 import { checkJandi } from "../jandi";
 import { sendSlackMessage } from "../slack";
 import { getCAUListInString, getKUListInString } from "../slack/univ";
+const dayjs = require("dayjs");
 
 export const runCronJobStartUp = async () => {
   // 잔디 체크 로직을 매일 밤 11시 59분마다 실행
@@ -40,7 +41,12 @@ export const runCronJobStartUp = async () => {
 
 export const runCronJobJandi = async () => {
   try {
-    if (process.env.NODE_ENV === "production") {
+    sendDiscordMsg(
+      `틀딱지지 개발기원 ${dayjs().diff("2023-09-11", "days")}일차`,
+      "JANDI"
+    );
+
+    if (process.env.NODE_ENV !== "production") {
       const data = await checkJandi();
       const usersWithNoJandi = data
         .reduce((prev, curr) => {
