@@ -2,3 +2,4 @@
 *.pem
 .bash_profile
 node_modules/
+# data.ts
