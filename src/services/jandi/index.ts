@@ -1,15 +1,14 @@
 import { Octokit } from "octokit";
 import isToday from "date-fns/isToday";
+import { USERS } from "../../../data";
 
-const { getUsers } = require("../../controllers/users");
+// const { getUsers } = require("../../controllers/users");
 
 export const checkJandi = async () => {
   const octokit = new Octokit();
 
-  const users = await getUsers();
-
   const result = await Promise.all(
-    users.map((userItem: any) =>
+    USERS.map((userItem: any) =>
       octokit
         .request("GET /users/{username}/events/public", {
           username: userItem.github_id,
