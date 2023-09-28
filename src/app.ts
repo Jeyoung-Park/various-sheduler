@@ -6,18 +6,18 @@ import { login } from "./services/discord";
 
 require("dotenv").config();
 
-const { sequelize } = require("./models");
-
 login();
 
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log("db 연결 성공");
-  })
-  .catch((err: Error) => {
-    console.error(err);
-  });
+// const { sequelize } = require("./models");
+
+// sequelize
+//   .sync({ force: false })
+//   .then(() => {
+//     console.log("db 연결 성공");
+//   })
+//   .catch((err: Error) => {
+//     console.error(err);
+//   });
 
 const ruleStartUp = new schedule.RecurrenceRule();
 ruleStartUp.tz = "Asia/Seoul";
