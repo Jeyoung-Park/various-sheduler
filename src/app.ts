@@ -1,7 +1,7 @@
 import express from "express";
 import schedule from "node-schedule";
 import indexRouter from "./routes";
-import { runCronJobStartUp } from "./services/cronJob";
+import { runCronJobJandi, runCronJobStartUp } from "./services/cronJob";
 import { login } from "./services/discord";
 
 require("dotenv").config();
@@ -36,7 +36,7 @@ ruleJandi.minute = 0;
 ruleJandi.hour = 23;
 
 schedule.scheduleJob(ruleJandi, async () => {
-  runCronJobStartUp();
+  runCronJobJandi();
 });
 
 const app = express();
